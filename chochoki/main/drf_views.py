@@ -15,4 +15,6 @@ class GameApiView(APIView):
             return Response({'detail': 'username incorrect'})
         if not user.check_password(password):
             return Response({'detail': 'password incorrect'})
+        if name not in json.loads(User.objects.get(username=username).games_settings):
+            return Response({'detail': 'game incorrect'})
         return Response(json.loads(User.objects.get(username=username).games_settings)[name])
