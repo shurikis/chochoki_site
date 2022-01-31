@@ -1,0 +1,13 @@
+{% extends 'main/base.html' %}
+{% block title %} Game: {{game}} {% endblock %}
+{% block content %}
+    {{game.html | safe}}
+    <svg class="bi me-2" width="40" height="530" role="img" aria-label="Bootstrap"><use href="#bootstrap"></use></svg>
+    <div class="container">
+        <h1>
+            <svg class="bi me-2" width="350" height="1" role="img" aria-label="Bootstrap"><use href="#bootstrap"></use></svg>
+            Game: {{game.name}}
+        </h1>
+        {{game.desc|linebreaks}}
+    </div>
+{% endblock %}

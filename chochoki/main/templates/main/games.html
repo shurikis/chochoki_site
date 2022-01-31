@@ -1,0 +1,19 @@
+{% extends 'main/base.html' %}
+{% block title %} Games {% endblock %}
+{% block content %}
+<h1>Games:</h1>
+    <ul>
+        {% for i in games %}
+        <li>
+            <h2>
+                {% if i.img %}
+                    <img src="{{i.img.url}}">
+                {% endif %}
+                <a href="{{i.name}}">{{i.name}}</a>
+            </h2>
+            <p>{{i.desc|truncatewords:10}}</p>
+            <hr>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
