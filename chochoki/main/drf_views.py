@@ -13,11 +13,11 @@ class GameApiView(APIView):
         try:
             user = DUser.objects.get(username=username)
         except DUser.DoesNotExist:
-            return Response({'detail': 'username incorrect'})
+            return Response({'error': 'username incorrect'})
         if not user.check_password(password):
-            return Response({'detail': 'password incorrect'})
+            return Response({'error': 'password incorrect'})
         if game not in json.loads(User.objects.get(username=username).games_settings):
-            return Response({'detail': 'game incorrect'})
+            return Response({'error': 'game incorrect'})
         print(json.loads(User.objects.get(username=username).games_settings))
         return Response(json.loads(User.objects.get(username=username).games_settings)[game])
 
@@ -28,7 +28,7 @@ class GameApiView(APIView):
         try:
             user = User.objects.get(username=username)
         except DUser.DoesNotExist:
-            return Response({'detail': 'username incorrect'})
+            return Response({'error': 'username incorrect'})
         b = json.loads(user.games_settings)
         b[game] = dict(json.loads(res))
         user.games_settings = json.dumps(b)
