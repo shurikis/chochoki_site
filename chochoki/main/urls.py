@@ -15,7 +15,7 @@ urlpatterns = [
 ]
 
 drf_urlpatterns = [
-    path('api/v1/login/<name>/<username>/<password>/', GameApiView.as_view())
+    path('api/v1/login/<game>/<username>/<password>/', GameApiView.as_view())
 ]
 
 

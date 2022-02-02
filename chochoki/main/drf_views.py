@@ -9,23 +9,28 @@ from .models import *
 
 
 class GameApiView(APIView):
-    def get(self, request, name, username, password):
+    def get(self, request, game, username, password):
         try:
             user = DUser.objects.get(username=username)
         except DUser.DoesNotExist:
             return Response({'detail': 'username incorrect'})
         if not user.check_password(password):
             return Response({'detail': 'password incorrect'})
-        if name not in json.loads(User.objects.get(username=username).games_settings):
+        if game not in json.loads(User.objects.get(username=username).games_settings):
             return Response({'detail': 'game incorrect'})
-        return Response(json.loads(User.objects.get(username=username).games_settings)[name])
+        print(json.loads(User.objects.get(username=username).games_settings))
+        return Response(json.loads(User.objects.get(username=username).games_settings)[game])
 
-    def post(self, request: WSGIRequest, name, username, password):
-        a = json.dumps(dict(request.POST))
+    def post(self, request: WSGIRequest, game, username, password):
+        res = '{}'
+        if 'json' in request.POST:
+            res = request.POST['json']
         try:
-            user = DUser.objects.get(username=username)
+            user = User.objects.get(username=username)
         except DUser.DoesNotExist:
             return Response({'detail': 'username incorrect'})
-        user.games_settings = a
+        b = json.loads(user.games_settings)
+        b[game] = dict(json.loads(res))
+        user.games_settings = json.dumps(b)
         user.save()
-        return self.get(request, name, username, password)
+        return self.get(request, game, username, password)
