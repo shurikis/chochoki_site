@@ -15,8 +15,8 @@ class GameApiView(APIView):
         for user in users:
             games_settings = json.loads(user.games_settings)
             for game in games:
-                if game.name.lower() not in games_settings:
-                    games_settings[game.name.lower()] = {}
+                if game.name.lower().replace(" ", "_") not in games_settings:
+                    games_settings[game.name.lower().replace(" ", "_")] = {}
             user.games_settings = json.dumps(games_settings)
             user.save()
 
