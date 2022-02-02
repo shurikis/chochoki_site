@@ -9,6 +9,17 @@ from .models import *
 
 
 class GameApiView(APIView):
+    def add_games(self):
+        games = Game.objects.all()
+        users = User.objects.all()
+        for user in users:
+            games_settings = json.loads(user.games_settings)
+            for game in games:
+                if game.name.lower() not in games_settings:
+                    games_settings[game.name.lower()] = {}
+            user.games_settings = json.dumps(games_settings)
+            user.save()
+
     def get(self, request, game, username, password):
         try:
             user = DUser.objects.get(username=username)

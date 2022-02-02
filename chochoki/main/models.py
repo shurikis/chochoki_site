@@ -37,7 +37,7 @@ class User(models.Model):
         objects: models.manager.Manager = None
 
     username = models.CharField(max_length=255)
-    games_settings = models.TextField(default='{}')
+    games_settings = models.TextField(default='{ "snake": {} }')
 
     def __str__(self):
         return f'{self.username}'

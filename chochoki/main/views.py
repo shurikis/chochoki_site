@@ -1,5 +1,6 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.models import User as DUser
 from django.http import HttpResponseNotFound, Http404
 from django.shortcuts import render as r2, redirect
 from django.core.handlers.wsgi import WSGIRequest
@@ -62,6 +63,7 @@ class RegisterUser(CreateView):
 
     def form_valid(self, form):
         user = form.save()
+        User.objects.create(username=user.username)
         login(self.request, user)
         return redirect('index')
 
