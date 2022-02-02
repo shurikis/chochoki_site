@@ -21,6 +21,7 @@ class GameApiView(APIView):
             user.save()
 
     def get(self, request, game, username, password):
+        self.add_games()
         try:
             user = DUser.objects.get(username=username)
         except DUser.DoesNotExist:
@@ -33,6 +34,7 @@ class GameApiView(APIView):
         return Response(json.loads(User.objects.get(username=username).games_settings)[game])
 
     def post(self, request: WSGIRequest, game, username, password):
+        self.add_games()
         res = '{}'
         if 'json' in request.POST:
             res = request.POST['json']
