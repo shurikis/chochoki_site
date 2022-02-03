@@ -52,7 +52,7 @@ class Views(WSGIRequest):
             raise Http404
         if not self.user.is_superuser or not token == game.token:
             raise Http404
-        game.token = base64.b64encode(os.urandom(20)).decode().replace('=', '')
+        game.token = base64.b64encode(os.urandom(20)).decode().replace('=', '').replace('/', '').replace('\\', '')
         game.save()
         return redirect(f'/admin/main/game/{game.pk}/change')
 

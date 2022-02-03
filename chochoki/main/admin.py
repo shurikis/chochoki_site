@@ -17,7 +17,7 @@ class GameAdmin(admin.ModelAdmin):
         for i in dict(request.POST).items():
             a[i[0]] = i[1][0]
         request.POST = a
-        request.POST['token'] = base64.b64encode(os.urandom(20)).decode().replace('=', '')
+        request.POST['token'] = base64.b64encode(os.urandom(20)).decode().replace('=', '').replace('/', '').replace('\\', '')
         print(request.POST)
         return super(GameAdmin, self).add_view(request, form_url, extra_context)
     
