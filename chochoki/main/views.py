@@ -1,3 +1,6 @@
+import base64
+import os
+
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User as DUser
@@ -20,7 +23,7 @@ def render(request, template_name, context2=None, content_type=None, status=None
 
 class Views(WSGIRequest):
     if 'pychram':
-        user: User = User()
+        user: DUser = DUser()
 
     def index(self):
         return render(self, 'main/index.html', {'page': 'index'})
@@ -37,8 +40,21 @@ class Views(WSGIRequest):
             game = Game.objects.get(name=game)
         except Game.DoesNotExist:
             raise Http404
+        if not game.is_published and not self.user.is_superuser:
+            raise Http404
         game.html = game.html.replace('{{game.name}}', game.name)
         return render(self, 'main/game.html', {"game": game})
+
+    def regenerate_token(self, game, token):
+        try:
+            game = Game.objects.get(name=game)
+        except Game.DoesNotExist:
+            raise Http404
+        if not self.user.is_superuser or not token == game.token:
+            raise Http404
+        game.token = base64.b64encode(os.urandom(20)).decode().replace('=', '')
+        game.save()
+        return redirect(f'/admin/main/game/{game.pk}/change')
 
     def page_not_found(self, exception):
         return HttpResponseNotFound(f"<h1>404 not found</h1>")

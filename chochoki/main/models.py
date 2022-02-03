@@ -1,3 +1,6 @@
+import base64
+import os
+
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User as DUser
@@ -15,6 +18,8 @@ class Game(models.Model):
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=True)
     html = models.TextField()
+    stage = models.ForeignKey("Stage", on_delete=models.PROTECT, default=1)
+    token = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return f'{self.name}'
@@ -31,13 +36,20 @@ class Game(models.Model):
         ordering = ['name', 'time_create']
 
 
+class Stage(models.Model):
+    name = models.CharField(max_length=100, db_index=True)
+
+    def __str__(self):
+        return self.name
+
+
 class User(models.Model):
     if 'pycharm':
         DoesNotExist = None
         objects: models.manager.Manager = None
 
     username = models.CharField(max_length=255)
-    games_settings = models.TextField(default='{ "snake": {} }')
+    games_settings = models.TextField(default='')
 
     def __str__(self):
         return f'{self.username}'

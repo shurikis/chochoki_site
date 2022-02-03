@@ -6,7 +6,7 @@
     <div class="container">
         <h1>
             <svg class="bi me-2" width="350" height="1" role="img" aria-label="Bootstrap"><use href="#bootstrap"></use></svg>
-            Game: {{game.name}}
+            Game: {{game.name}} {% if not game.stage.name == 'release' %}({{game.stage}}) {% endif %}
         </h1>
         {{game.desc|linebreaks}}
     </div>
