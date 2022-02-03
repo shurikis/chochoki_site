@@ -46,3 +46,4 @@ class GameAdmin(admin.ModelAdmin):
 
 admin.site.register(Game, GameAdmin)
 admin.site.register(User)
+admin.site.register(Stage)
