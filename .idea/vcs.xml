@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Minecraft" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/fastmc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/fastmc/peon" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/python-rcon" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/rcon" vcs="Git" />
+  </component>
+</project>

@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+{% block title %} Games {% endblock %}
+{% block content %}
+<h1>Games:</h1>
+    <ul>
+        {% for i in games %}
+        {% if i.is_published %}
+        <li>
+            <h2>
+                {% if i.img %}
+                    <img src="{{i.img.url}}">
+                {% endif %}
+                <a href="{{i.name}}" class="btn btn-outline-primary me-2">{{i.name}} {% if not i.stage.name == 'release' %} ({{i.stage}}) {% endif %}</a>
+            </h2>
+            <p>{{i.desc|truncatewords:10}}</p>
+            <hr>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}
